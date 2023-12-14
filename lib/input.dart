@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 class Input extends StatefulWidget {
@@ -10,9 +12,7 @@ class Input extends StatefulWidget {
 class _InputState extends State<Input> {
   bool _pass = true;
   final _key = GlobalKey<FormState>();
-  final myController=TextEditingController();
-
-  
+  final myController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -23,26 +23,71 @@ class _InputState extends State<Input> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const Text('Fill the form below',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color:  Color.fromARGB(255, 55, 0, 150),
-                  fontStyle: FontStyle.italic,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  width: 200,
+                  padding: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    boxShadow: [BoxShadow(color: Colors.black,blurRadius: 6,offset: Offset(5,3))],
+                    
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color.fromARGB(255, 97, 218, 255),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      'WELOME',
+                      style: TextStyle(
+                        fontSize: 40,
+                        fontFamily: 'Silkscreen',
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
                 ),
               ),
-              SizedBox(height: 30,),
+              const SizedBox(
+                height: 10,
+              ),
+              Stack(
+                children: [
+                  Text(
+                    'Please fill the form below',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        fontStyle: FontStyle.italic,
+                        foreground: Paint()
+                          ..style = PaintingStyle.stroke
+                          ..strokeWidth = 2
+                          ..color = Colors.black
+                        // height: 1,
+                        ),
+                  ),
+                  Text(
+                    'Please fill the form below',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Color.fromARGB(255, 7, 255, 214).withOpacity(0.6),
+                      fontStyle: FontStyle.italic,
+                      // height: 1,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 30,
+              ),
               TextFormField(
-                autofocus: true,
                 controller: myController,
                 onChanged: (value) {
                   print('output: $value');
                 },
                 validator: (value) {
-                  if(myController.text.isEmpty){
+                  if (myController.text.isEmpty) {
                     return 'Name can\'t be empty';
-                  }
-                  else if(myController.text.length<3){
+                  } else if (myController.text.length < 3) {
                     return 'Name should be atleast 3 characters';
                   }
                 },
@@ -79,7 +124,6 @@ class _InputState extends State<Input> {
                     return 'Name can\'t be empty';
                   }
                 },
-                
                 decoration: const InputDecoration(
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -247,7 +291,6 @@ class _InputState extends State<Input> {
           ),
         ),
       ),
-    
     );
   }
 }
