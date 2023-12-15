@@ -10,6 +10,12 @@ class Input extends StatefulWidget {
 }
 
 class _InputState extends State<Input> {
+  
+  final reg=RegExp(r"^[a-zA-Z0-9 _\-\.]{4,}[@][a-z]+[\.][a-z]{2,3}");
+  final reg2=RegExp(r"[6789]\d{9}");
+  // final phone=RegExp(r"^[0-9]*");
+  final name=RegExp(r'^[A-Za-z]+$');
+  final age=RegExp(r"[0-9]{1,2}");
   bool _pass = true;
   final _key = GlobalKey<FormState>();
   final myController = TextEditingController();
@@ -79,25 +85,30 @@ class _InputState extends State<Input> {
               const SizedBox(
                 height: 30,
               ),
+              
+              //textfields
+
               TextFormField(
                 controller: myController,
                 onChanged: (value) {
                   print('output: $value');
                 },
                 validator: (value) {
-                  if (myController.text.isEmpty) {
+                  
+                   if (myController.text.isEmpty) {
                     return 'Name can\'t be empty';
-                  } else if (myController.text.length < 3) {
+                  }
+                  
+                  
+                  else if (myController.text.length < 3) {
                     return 'Name should be atleast 3 characters';
                   }
+                  else if(!name.hasMatch(myController.text)){
+                    return "Enter a valid name";
+                  }
+                  
                 },
-                // validator: (value) {
-                //   if (value!.isEmpty) {
-                //     return 'Name can\'t be empty';
-                //   } else if (value.length < 3) {
-                //     return 'Name should be atleast 3 characters';
-                //   }
-                // },
+                
                 decoration: const InputDecoration(
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -123,6 +134,10 @@ class _InputState extends State<Input> {
                   if (value!.isEmpty) {
                     return 'Name can\'t be empty';
                   }
+                  else if(!name.hasMatch(value)){
+                    return "Enter a valid name";
+                  }
+                  
                 },
                 decoration: const InputDecoration(
                   focusedBorder: OutlineInputBorder(
@@ -149,7 +164,7 @@ class _InputState extends State<Input> {
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'E-Mail can\'t be empty';
-                  } else if (!(value.contains('@'))) {
+                  } else if (!reg.hasMatch(value)) {
                     return 'enter a valid email';
                   }
                 },
@@ -178,9 +193,15 @@ class _InputState extends State<Input> {
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Number can\'t be empty';
-                  } else if (value.length < 10 || value.length > 10) {
-                    return 'Number should be exactly 10 digits';
                   }
+                  else if(value.length>10){
+                    return "number exact 10";
+                  }
+                 
+                   else if (!reg2.hasMatch(value)) {
+                    return 'Enter a valid phone number';
+                  }
+                  
                 },
                 decoration: const InputDecoration(
                   focusedBorder: OutlineInputBorder(
@@ -210,6 +231,9 @@ class _InputState extends State<Input> {
                     return 'pleas enter the password';
                   } else if (value.length < 8) {
                     return 'Password must be greater then 8 characters';
+                  }
+                  else if(value.length>12){
+                    return 'password must be less than 12 characters';
                   }
                 },
                 decoration: InputDecoration(
@@ -242,16 +266,25 @@ class _InputState extends State<Input> {
                 height: 10,
               ),
               TextFormField(
-                keyboardType: TextInputType.number,
+                // keyboardType: TextInputType.number,
                 onChanged: (value) {
                   print('output: $value');
                 },
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Age can\'t be empty';
-                  } else if (int.parse(value) < 18) {
+                  }
+                  else if (value.length>2){
+                    return "Enter valid age";
+                  }
+                  else if (!age.hasMatch(value)) {
+                    return 'Invalid age!';
+                  } 
+                  else if (int.parse(value) < 18) {
                     return 'Age must be greater than 18';
                   }
+                   
+                  
                 },
                 decoration: const InputDecoration(
                   focusedBorder: OutlineInputBorder(
