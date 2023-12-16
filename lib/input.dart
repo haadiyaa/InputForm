@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:inputfield/home.dart';
 
 class Input extends StatefulWidget {
   const Input({super.key});
@@ -10,15 +11,18 @@ class Input extends StatefulWidget {
 }
 
 class _InputState extends State<Input> {
-  
-  final reg=RegExp(r"^[a-zA-Z0-9 _\-\.]{4,}[@][a-z]+[\.][a-z]{2,3}");
-  final reg2=RegExp(r"[6789]\d{9}");
-  // final phone=RegExp(r"^[0-9]*");
-  final name=RegExp(r'^[A-Za-z]+$');
-  final age=RegExp(r"[0-9]{1,2}");
+  final reg = RegExp(r"^[a-zA-Z0-9_\-\.\S]{4,}[@][a-z]+[\.][a-z]{2,3}$");
+  final reg2 = RegExp(r"^[6789]\d{9}$");
+  final paswd =
+      RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+
+  final name = RegExp(r'^[A-Za-z]+$');
+  final age = RegExp(r"^[0-9]{1,2}$");
   bool _pass = true;
   final _key = GlobalKey<FormState>();
   final myController = TextEditingController();
+final myController2=TextEditingController();
+final myController3=TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -29,29 +33,6 @@ class _InputState extends State<Input> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  width: 200,
-                  padding: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    boxShadow: [BoxShadow(color: Colors.black,blurRadius: 6,offset: Offset(5,3))],
-                    
-                    borderRadius: BorderRadius.circular(10),
-                    color: Color.fromARGB(255, 97, 218, 255),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      'WELOME',
-                      style: TextStyle(
-                        fontSize: 40,
-                        fontFamily: 'Silkscreen',
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
               const SizedBox(
                 height: 10,
               ),
@@ -75,7 +56,8 @@ class _InputState extends State<Input> {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
-                      color: Color.fromARGB(255, 7, 255, 214).withOpacity(0.6),
+                      color: const Color.fromARGB(255, 7, 255, 214)
+                          .withOpacity(0.6),
                       fontStyle: FontStyle.italic,
                       // height: 1,
                     ),
@@ -85,7 +67,7 @@ class _InputState extends State<Input> {
               const SizedBox(
                 height: 30,
               ),
-              
+
               //textfields
 
               TextFormField(
@@ -94,21 +76,14 @@ class _InputState extends State<Input> {
                   print('output: $value');
                 },
                 validator: (value) {
-                  
-                   if (myController.text.isEmpty) {
+                  if (myController.text.isEmpty) {
                     return 'Name can\'t be empty';
-                  }
-                  
-                  
-                  else if (myController.text.length < 3) {
+                  } else if (myController.text.length < 3) {
                     return 'Name should be atleast 3 characters';
-                  }
-                  else if(!name.hasMatch(myController.text)){
+                  } else if (!name.hasMatch(myController.text)) {
                     return "Enter a valid name";
                   }
-                  
                 },
-                
                 decoration: const InputDecoration(
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -133,11 +108,9 @@ class _InputState extends State<Input> {
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Name can\'t be empty';
-                  }
-                  else if(!name.hasMatch(value)){
+                  } else if (!name.hasMatch(value)) {
                     return "Enter a valid name";
                   }
-                  
                 },
                 decoration: const InputDecoration(
                   focusedBorder: OutlineInputBorder(
@@ -193,15 +166,11 @@ class _InputState extends State<Input> {
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Number can\'t be empty';
-                  }
-                  else if(value.length>10){
+                  } else if (value.length > 10) {
                     return "number exact 10";
-                  }
-                 
-                   else if (!reg2.hasMatch(value)) {
+                  } else if (!reg2.hasMatch(value)) {
                     return 'Enter a valid phone number';
                   }
-                  
                 },
                 decoration: const InputDecoration(
                   focusedBorder: OutlineInputBorder(
@@ -221,6 +190,7 @@ class _InputState extends State<Input> {
                 height: 10,
               ),
               TextFormField(
+                controller: myController2,
                 keyboardType: TextInputType.visiblePassword,
                 onChanged: (value) {
                   print('output: $value');
@@ -229,11 +199,10 @@ class _InputState extends State<Input> {
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'pleas enter the password';
-                  } else if (value.length < 8) {
-                    return 'Password must be greater then 8 characters';
                   }
-                  else if(value.length>12){
-                    return 'password must be less than 12 characters';
+                  
+                  else if (!paswd.hasMatch(value)) {
+                    return 'Password should contain at least one upper case, \none lower case, one digit, one special character and \nmust be 8 characters in length';
                   }
                 },
                 decoration: InputDecoration(
@@ -266,6 +235,50 @@ class _InputState extends State<Input> {
                 height: 10,
               ),
               TextFormField(
+                controller: myController3,
+                keyboardType: TextInputType.visiblePassword,
+                onChanged: (value) {
+                  print('output: $value');
+                },
+                obscureText: _pass,
+                validator: (value) {
+                  if(value!=myController2.text){
+                    return 'Password does\'nt match';
+                  }
+                  else{
+                    return null;
+                  }
+                },
+                decoration: InputDecoration(
+                  suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(
+                          () {
+                            _pass = !_pass;
+                          },
+                        );
+                      },
+                      icon: Icon(
+                        _pass ? Icons.visibility_off : Icons.visibility,
+                        size: 23,
+                      )),
+                  focusedBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    borderSide: BorderSide(
+                      color: Colors.blue,
+                      width: 1.5,
+                    ),
+                  ),
+                  label: const Text('Re-enter the Password'),
+                  border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              TextFormField(
                 // keyboardType: TextInputType.number,
                 onChanged: (value) {
                   print('output: $value');
@@ -273,18 +286,13 @@ class _InputState extends State<Input> {
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Age can\'t be empty';
-                  }
-                  else if (value.length>2){
+                  } else if (value.length > 2) {
                     return "Enter valid age";
-                  }
-                  else if (!age.hasMatch(value)) {
+                  } else if (!age.hasMatch(value)) {
                     return 'Invalid age!';
-                  } 
-                  else if (int.parse(value) < 18) {
+                  } else if (int.parse(value) < 18) {
                     return 'Age must be greater than 18';
                   }
-                   
-                  
                 },
                 decoration: const InputDecoration(
                   focusedBorder: OutlineInputBorder(
@@ -310,9 +318,31 @@ class _InputState extends State<Input> {
                 ),
                 onPressed: () {
                   if (_key.currentState!.validate()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Submitted')),
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text('Submission Successful',style: TextStyle(fontSize: 20),),
+                          content: const Text('Do you want to login?'),
+                          actions: [
+                            TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: const Text('Cancel')),
+                            TextButton(
+                                onPressed: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const HomePage(),
+                                    )),
+                                child: const Text("OK")),
+                          ],
+                        );
+                      },
                     );
+                    // ScaffoldMessenger.of(context).showSnackBar(
+                    //   const SnackBar(content: Text('Submitted')),
+                    // );
+                    //..........Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage(),));
                   }
                 },
                 child: const Text(
