@@ -8,7 +8,7 @@ class HomePage extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Home'),
+          title:const Text('Home'),
           backgroundColor: Colors.blue.shade200,
         ),
         body: Center(
@@ -50,8 +50,7 @@ class HomePage extends StatelessWidget {
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.black),
                 ),
-                onPressed: () =>
-                    Navigator.pop(context),
+                onPressed: () => Navigator.pop(context),
                 child: const Text(
                   'Go back',
                   style: TextStyle(color: Colors.white),

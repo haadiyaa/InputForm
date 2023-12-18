@@ -19,10 +19,11 @@ class _InputState extends State<Input> {
   final name = RegExp(r'^[A-Za-z]+$');
   final age = RegExp(r"^[0-9]{1,2}$");
   bool _pass = true;
+  bool _pass2 = true;
   final _key = GlobalKey<FormState>();
   final myController = TextEditingController();
-final myController2=TextEditingController();
-final myController3=TextEditingController();
+  final myController2 = TextEditingController();
+  final myController3 = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -199,9 +200,7 @@ final myController3=TextEditingController();
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'pleas enter the password';
-                  }
-                  
-                  else if (!paswd.hasMatch(value)) {
+                  } else if (!paswd.hasMatch(value)) {
                     return 'Password should contain at least one upper case, \none lower case, one digit, one special character and \nmust be 8 characters in length';
                   }
                 },
@@ -240,12 +239,11 @@ final myController3=TextEditingController();
                 onChanged: (value) {
                   print('output: $value');
                 },
-                obscureText: _pass,
+                obscureText: _pass2,
                 validator: (value) {
-                  if(value!=myController2.text){
+                  if (value != myController3.text) {
                     return 'Password does\'nt match';
-                  }
-                  else{
+                  } else {
                     return null;
                   }
                 },
@@ -254,12 +252,12 @@ final myController3=TextEditingController();
                       onPressed: () {
                         setState(
                           () {
-                            _pass = !_pass;
+                            _pass2 = !_pass2;
                           },
                         );
                       },
                       icon: Icon(
-                        _pass ? Icons.visibility_off : Icons.visibility,
+                        _pass2 ? Icons.visibility_off : Icons.visibility,
                         size: 23,
                       )),
                   focusedBorder: const OutlineInputBorder(
@@ -322,7 +320,10 @@ final myController3=TextEditingController();
                       context: context,
                       builder: (context) {
                         return AlertDialog(
-                          title: const Text('Submission Successful',style: TextStyle(fontSize: 20),),
+                          title: const Text(
+                            'Submission Successful',
+                            style: TextStyle(fontSize: 20),
+                          ),
                           content: const Text('Do you want to login?'),
                           actions: [
                             TextButton(

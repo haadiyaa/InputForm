@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
           title: const Text('form'),
           backgroundColor: Colors.blue.shade200,
         ),
-        body: Input(),
+        body: const Input(),
       ),
     );
   }
